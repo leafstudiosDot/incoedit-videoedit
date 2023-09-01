@@ -1,1 +1,1 @@
-python3 -m http.server 3618
+python3 -m http.server --directory ./src/components/VideoEditor/videoedit/ 3618
