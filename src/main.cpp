@@ -17,6 +17,10 @@ EM_JS(int, canvas_get_height, (), {
 int canvasWidth = canvas_get_width();
 int canvasHeight = canvas_get_height();
 
+void render() {
+    
+}
+
 void mainLoop() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -25,12 +29,10 @@ void mainLoop() {
         }
     }
 
-    SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(g_renderer, 40, 40, 40, 255);
     SDL_RenderClear(g_renderer);
 
-    SDL_SetRenderDrawColor(g_renderer, 255, 0, 0, 255);
-    SDL_Rect rect = { 100, 100, 50, 50 };
-    SDL_RenderFillRect(g_renderer, &rect);
+    render();
 
     SDL_RenderPresent(g_renderer);
 }
