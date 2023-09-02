@@ -6,6 +6,17 @@ SDL_Window* g_window = nullptr;
 SDL_Renderer* g_renderer = nullptr;
 bool g_quit = false;
 
+EM_JS(int, canvas_get_width, (), {
+  return canvas.width;
+});
+
+EM_JS(int, canvas_get_height, (), {
+  return canvas.height;
+});
+
+int canvasWidth = canvas_get_width();
+int canvasHeight = canvas_get_height();
+
 void mainLoop() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -31,7 +42,7 @@ int main(int argc, char* argv[]) {
     }
     g_window = SDL_CreateWindow("Incogine Editor - Video Editor",
         SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-        1280, 720, SDL_WINDOW_OPENGL);
+        canvasWidth, canvasHeight, SDL_WINDOW_OPENGL);
 
     if (!g_window) {
         std::cerr << "SDL window creation failed: " << SDL_GetError() << std::endl;
@@ -47,6 +58,12 @@ int main(int argc, char* argv[]) {
         SDL_Quit();
         return 1;
     }
+
+    /*emscripten_set_resize_callback(nullptr, nullptr, 1, [](int eventType, const EmscriptenUiEvent* uiEvent, void* userData) {
+        int newWidth = uiEvent->windowInnerWidth;
+        int newHeight = uiEvent->windowInnerHeight;
+        resizeCanvas(newWidth, newHeight);
+    });*/
 
     emscripten_set_main_loop(mainLoop, 0, 1);
 
